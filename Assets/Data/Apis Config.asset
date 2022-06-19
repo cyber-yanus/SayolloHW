@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc56b3520bf241f1aab442135e71e111, type: 3}
+  m_Name: Apis Config
+  m_EditorClassIdentifier: 
+  dataList:
+  - dataKey: 0
+    DataValue: ad/vast
+    requestType: 0
+    requestFormsDataConfig: {fileID: 0}
+  - dataKey: 0
+    DataValue: v1/gcom/ad
+    requestType: 1
+    requestFormsDataConfig: {fileID: 11400000, guid: e3ec78edb75f94d9b8a64b7965ed58d1,
+      type: 2}
