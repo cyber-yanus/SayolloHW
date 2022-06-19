@@ -1,10 +1,9 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
-using UnityEngine.Networking;
-using Data.NetworkData;
-using Data.RequestData;
+﻿using Data.NetworkData;
 using Data.ApiData;
+using Deserializer;
 using UnityEngine;
+using System;
+
 
 namespace Systems
 {
@@ -12,55 +11,30 @@ namespace Systems
     {
         [SerializeField] private NetworkConfig networkConfig;
 
+        private RequestSystem _requestSystem;
+        private DeserializationSystem _deserializationSystem;
 
-        private void Start()
+        
+        
+        private void Awake()
         {
-            SendRequest(ApiType.VideoAds);
+            Init();
         }
 
-        public async UniTask SendRequest(ApiType apiType)
+        public void ActivateRequest(ApiType apiType, Action<IDeserialized> afterDeserializationAction = null)
         {
-            UnityWebRequest request = SelectRequest(apiType);
+            _deserializationSystem.AddDeserializationCompletedAction(afterDeserializationAction);
 
-            await request.SendWebRequest();
-
-            if (!string.IsNullOrEmpty(request.error))
-            {
-                Debug.LogError(request.error);
-            }
-            else
-            {
-                Debug.Log(request.downloadHandler.text);
-            }
+            _requestSystem.SendRequest(apiType);
         }
 
-        private UnityWebRequest SelectRequest(ApiType apiType)
+        private void Init()
         {
-            var requestType = networkConfig.GetRequestTypeByApiType(apiType);
-            var requestPath = networkConfig.GetFullApiPath(apiType);
+            _requestSystem = new RequestSystem(networkConfig);
+            _deserializationSystem = new DeserializationSystem(networkConfig);
 
-            switch (requestType)
-            {
-                case RequestType.Get:
-                    return GetRequest(requestPath);
-
-                case RequestType.Post:
-                    var formData = networkConfig.GetFormDataByApiType(apiType);
-                    return PostRequest(requestPath, formData);
-            }
-
-            return null;
+            _requestSystem.ResponseReceived += _deserializationSystem.Activate;
         }
-
-        private UnityWebRequest GetRequest(string requestPath)
-        {
-            return UnityWebRequest.Get(requestPath);
-        }
-
-        private UnityWebRequest PostRequest(string requestPath, WWWForm formData)
-        {
-            return UnityWebRequest.Post(requestPath, formData);
-        }
-
+        
     }
 }
