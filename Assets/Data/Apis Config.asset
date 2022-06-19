@@ -17,8 +17,10 @@ MonoBehaviour:
     DataValue: ad/vast
     requestType: 0
     requestFormsDataConfig: {fileID: 0}
-  - dataKey: 0
+    responseFormat: 0
+  - dataKey: 1
     DataValue: v1/gcom/ad
     requestType: 1
     requestFormsDataConfig: {fileID: 11400000, guid: e3ec78edb75f94d9b8a64b7965ed58d1,
       type: 2}
+    responseFormat: 0

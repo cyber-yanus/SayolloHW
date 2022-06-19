@@ -1,4 +1,5 @@
 using Data.EnvironmentData;
+using Data.ResponseData;
 using Data.RequestData;
 using Data.ApiData;
 using UnityEngine;
@@ -43,9 +44,14 @@ namespace Data.NetworkData
         {
             var apiData = apisConfig.GetDataByType(apiType);
             
-            var formData = apiData.RequestFormsDataConfig.GetWWWForm();
+            return apiData.RequestFormsDataConfig.GetWWWForm();
+        }
 
-            return formData;
+        public ResponseFormat GetResponseFormatByApiType(ApiType apiType)
+        {
+            var apiData = apisConfig.GetDataByType(apiType);
+
+            return apiData.ResponseFormat;
         }
     }
 }
