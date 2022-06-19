@@ -36,8 +36,6 @@ namespace Systems
                 string response = request.downloadHandler.text;
                 
                 ResponseReceived?.Invoke(apiType, response);
-                
-                Debug.Log(request.downloadHandler.text);
             }
         }
 
