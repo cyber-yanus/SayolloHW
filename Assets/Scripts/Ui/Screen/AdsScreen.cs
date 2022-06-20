@@ -2,8 +2,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine;
 
-
-namespace Screen
+namespace Ui.Screen
 {
     public class AdsScreen : MonoBehaviour
     {

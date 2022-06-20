@@ -11,14 +11,20 @@ namespace Data.ApiData
     {
         [Space]
         [SerializeField] private RequestType requestType;
-        [SerializeField] private RequestFormsDataConfig requestFormsDataConfig;
         [Space]
         [SerializeField] private ResponseFormat responseFormat;
-        
+
+        private string _requestJson;
+
 
         public RequestType RequestType => requestType;
-        public RequestFormsDataConfig RequestFormsDataConfig => requestFormsDataConfig;
-        
+
         public ResponseFormat ResponseFormat => responseFormat;
+
+        public string RequestJson
+        {
+            get => _requestJson;
+            set => _requestJson = value;
+        }
     }
 }

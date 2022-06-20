@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataList:
   - dataKey: 0
-    DataValue: prod/
+    dataValue: prod/
   - dataKey: 1
-    DataValue: stage/
+    dataValue: stage/
   - dataKey: 2
-    DataValue: dev/
+    dataValue: dev/

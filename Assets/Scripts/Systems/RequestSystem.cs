@@ -4,6 +4,7 @@ using Data.RequestData;
 using Data.NetworkData;
 using Data.ApiData;
 using UnityEngine;
+using System.Text;
 using System;
 
 namespace Systems
@@ -12,19 +13,26 @@ namespace Systems
     {
         private readonly NetworkConfig _networkConfig;
         
-        public event Action<ApiType, string> ResponseReceived;
-        
+        public event Action<ApiType, string> ApiResponseReceived;
+        private Action<Sprite> SpriteResponseReceived;
 
-        
+
+
         public RequestSystem (NetworkConfig networkConfig)
         {
             _networkConfig = networkConfig;
         }
 
-        public async UniTask SendRequest(ApiType apiType)
+        public async UniTask SendApiRequest(ApiType apiType)
         {
             UnityWebRequest request = SelectRequest(apiType);
 
+            if (request == null)
+            {
+                Debug.LogError("you can't send a request");
+                return;
+            }
+            
             await request.SendWebRequest();
 
             if (!string.IsNullOrEmpty(request.error))
@@ -35,8 +43,34 @@ namespace Systems
             {
                 string response = request.downloadHandler.text;
                 
-                ResponseReceived?.Invoke(apiType, response);
+                Debug.Log($"response = " + response);
+                
+                ApiResponseReceived?.Invoke(apiType, response);
             }
+        }
+
+        public async UniTask SendSpriteRequest(string spriteUrl)
+        {
+            UnityWebRequest request = GetRequest(spriteUrl);
+            
+            await request.SendWebRequest();
+            
+            if (!string.IsNullOrEmpty(request.error))
+            {
+                Debug.LogError(request.error);
+            }
+            else
+            {
+                byte[] response = request.downloadHandler.data;
+                Sprite spriteResult = response.ToSprite();
+                
+                SpriteResponseReceived?.Invoke(spriteResult);
+            }
+        }
+
+        public void AddSpriteResponseReceivedAction(Action<Sprite> action)
+        {
+            SpriteResponseReceived = action;
         }
 
         private UnityWebRequest SelectRequest(ApiType apiType)
@@ -50,8 +84,8 @@ namespace Systems
                     return GetRequest(requestPath);
 
                 case RequestType.Post:
-                    var formData = _networkConfig.GetFormDataByApiType(apiType);
-                    return PostRequest(requestPath, formData);
+                    var requestJson = _networkConfig.GetRequestJsonByApiType(apiType);
+                    return PostRequest(requestPath, requestJson);
             }
 
             return null;
@@ -62,9 +96,22 @@ namespace Systems
             return UnityWebRequest.Get(requestPath);
         }
 
-        private UnityWebRequest PostRequest(string requestPath, WWWForm formData)
+        private UnityWebRequest PostRequest(string requestPath, string requestJson)
         {
-            return UnityWebRequest.Post(requestPath, formData);
+            if (string.IsNullOrEmpty(requestJson))
+            {
+                Debug.LogError("request json is empty");
+                return null;
+            }
+            
+            UnityWebRequest request = new UnityWebRequest(requestPath, "POST"); 
+            
+            var jsonToSend = new UTF8Encoding().GetBytes(requestJson);
+            request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            return request;
         }
     }
 }

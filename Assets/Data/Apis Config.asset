@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataList:
   - dataKey: 0
-    DataValue: ad/vast
+    dataValue: ad/vast
     requestType: 0
-    requestFormsDataConfig: {fileID: 0}
     responseFormat: 0
   - dataKey: 1
-    DataValue: v1/gcom/ad
+    dataValue: v1/gcom/ad
     requestType: 1
-    requestFormsDataConfig: {fileID: 11400000, guid: e3ec78edb75f94d9b8a64b7965ed58d1,
-      type: 2}
-    responseFormat: 0
+    responseFormat: 1
+  - dataKey: 2
+    dataValue: v1/gcom/action
+    requestType: 1
+    responseFormat: 1

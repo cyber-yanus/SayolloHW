@@ -40,18 +40,25 @@ namespace Data.NetworkData
             return apiData.RequestType;
         }
 
-        public WWWForm GetFormDataByApiType(ApiType apiType)
-        {
-            var apiData = apisConfig.GetDataByType(apiType);
-            
-            return apiData.RequestFormsDataConfig.GetWWWForm();
-        }
-
         public ResponseFormat GetResponseFormatByApiType(ApiType apiType)
         {
             var apiData = apisConfig.GetDataByType(apiType);
 
             return apiData.ResponseFormat;
+        }
+
+        public string GetRequestJsonByApiType(ApiType apiType)
+        {
+            var apiData = apisConfig.GetDataByType(apiType);
+
+            return apiData.RequestJson;
+        }
+
+        public void AddJsonToApi(string json, ApiType apiType)
+        {
+            var apiData = apisConfig.GetDataByType(apiType);
+
+            apiData.RequestJson = json;
         }
     }
 }

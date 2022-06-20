@@ -8,9 +8,9 @@ namespace Data
     public abstract class CustomDictionaryData<TKey, TValue>
     {
         [SerializeField] private TKey dataKey;
-        [SerializeField] private TValue DataValue;
+        [SerializeField] private TValue dataValue;
 
         public TKey Key => dataKey;
-        public TValue Value => DataValue;
+        public TValue Value => dataValue;
     }
 }

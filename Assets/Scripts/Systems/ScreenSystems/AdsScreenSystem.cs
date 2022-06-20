@@ -3,7 +3,7 @@ using Data.ApiData;
 using Deserializer;
 using UnityEngine;
 using Xml2CSharp;
-using Screen;
+using Ui.Screen;
 
 namespace Systems
 {
@@ -47,7 +47,7 @@ namespace Systems
             else
             {
                 adsScreen.AddLoadPanelText(LoadPanelRequestText);
-                networkSystem.ActivateRequest(ApiType.VideoAds, RequestFinishAction);
+                networkSystem.ActivateApiRequest(ApiType.VideoAds, RequestFinishAction);
             }
         }
 
