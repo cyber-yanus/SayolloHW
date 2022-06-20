@@ -11,8 +11,9 @@ namespace Systems
     {
         [SerializeField] private PurchaseScreen purchaseScreen;
         [SerializeField] private PurchaseItemUi purchaseItemUi;
+        [SerializeField] private PurchaseResultUi purchaseResultUi;
         [Space]
-        [SerializeField] private ConfirmPurchasePanelSystem confirmPurchasePanelSystem;
+        [SerializeField] private ConfirmPurchaseSystem confirmPurchaseSystem;
         [SerializeField] private NetworkSystem networkSystem;        
         
         
@@ -26,7 +27,7 @@ namespace Systems
         {
             purchaseScreen.AddActionToSendButton(GetPurchaseItemAction);
 
-            confirmPurchasePanelSystem.CardDataApproved += CardDataApprovedAction;
+            confirmPurchaseSystem.CardDataApproved += CardDataApprovedAction;
         }
 
         private void GetPurchaseItemAction()
@@ -34,13 +35,13 @@ namespace Systems
             string emptyJson = "{\"test json\" : \"test\"}";
             
             networkSystem.AddRequestJsonToApi(emptyJson, ApiType.PurchaseItem);
-            networkSystem.ActivateApiRequest(ApiType.PurchaseItem, RequestFinishAction);
+            networkSystem.ActivateApiRequest(ApiType.PurchaseItem, PurchaseItemRequestFinishAction);
             
             purchaseScreen.SetActiveSendButton(false);
             purchaseScreen.SetActiveLoadPanel(true);
         }
 
-        private void RequestFinishAction(IDeserialized deserializedObject)
+        private void PurchaseItemRequestFinishAction(IDeserialized deserializedObject)
         {
             PurchaseItemData purchaseItemData = (PurchaseItemData) deserializedObject;
 
@@ -54,7 +55,7 @@ namespace Systems
 
         private void ActivatePurchaseItemUi(PurchaseItemData purchaseItemData)
         {
-            string tile = purchaseItemData.item_name;
+            string tile = purchaseItemData.title;
             string price = purchaseItemData.price.ToString();
             string currency = purchaseItemData.currency;
             string currencySign = purchaseItemData.currency_sign;
@@ -71,7 +72,7 @@ namespace Systems
 
         private void PurchaseButtonAction()
         {
-            confirmPurchasePanelSystem.Activate(true);
+            confirmPurchaseSystem.Activate(true);
         }
 
         private void CardDataApprovedAction(PurchaseCardData purchaseCardData)
@@ -79,7 +80,15 @@ namespace Systems
             string requestJson = JsonUtility.ToJson(purchaseCardData);
 
             networkSystem.AddRequestJsonToApi(requestJson, ApiType.UserPurchase);
-            networkSystem.ActivateApiRequest(ApiType.UserPurchase);
+            networkSystem.ActivateApiRequest(ApiType.UserPurchase, UserPurchaseRequestFinishAction);
+        }
+
+        private void UserPurchaseRequestFinishAction(IDeserialized deserializedObject)
+        {
+            PurchaseResultData purchaseResultData = (PurchaseResultData)deserializedObject;
+            
+            purchaseResultUi.Activate(true);
+            purchaseResultUi.AddResult(purchaseResultData.user_message);
         }
 
         private void AddPurchaseItemSprite(Sprite sprite)
