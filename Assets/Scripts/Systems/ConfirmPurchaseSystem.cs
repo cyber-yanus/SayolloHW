@@ -7,7 +7,7 @@ using Ui;
 
 namespace Systems
 {
-    public class ConfirmPurchasePanelSystem : MonoBehaviour
+    public class ConfirmPurchaseSystem : MonoBehaviour
     {
         [SerializeField] private ConfirmPurchaseUi confirmPurchaseUi;
 
@@ -37,6 +37,8 @@ namespace Systems
 
             if (dataIsCorrects)
             {
+                Activate(false);
+                
                 var purchaseCardData = new PurchaseCardData
                 {
                     email = confirmPurchaseUi.EmailValue,
@@ -55,7 +57,7 @@ namespace Systems
 
         private bool CheckInputFieldsData()
         {
-            List<string> inputFieldsData = new List<string>
+            var inputFieldsData = new List<string>
             {
                 confirmPurchaseUi.EmailValue,
                 confirmPurchaseUi.CardNumberValue,

@@ -4,6 +4,7 @@ using DefaultNamespace;
 using Data.NetworkData;
 using Deserializer;
 using Data.ApiData;
+using UnityEngine;
 using Xml2CSharp;
 using System;
 
@@ -32,6 +33,14 @@ namespace Systems
                 
                 case ApiType.PurchaseItem:
                     Deserialize<PurchaseItemData>(apiType, response);
+                    break;
+                
+                case ApiType.UserPurchase:
+                    Deserialize<PurchaseResultData>(apiType, response);
+                    break;
+                
+                default:
+                    Debug.LogError("Not Find Api Type");
                     break;
             }
         }
