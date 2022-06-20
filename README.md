@@ -61,7 +61,7 @@ add the main camera to the Video Player component
 
 ![ezgif com-gif-maker-2](https://user-images.githubusercontent.com/59806365/174673782-9ac20fa2-95ce-4779-9fa3-2ed7be4e649e.gif)
 
-Great, you can use!
+Congratulations, now you can use it!
 
 Example of correct execution:
 
@@ -74,7 +74,7 @@ Put the ```Purchase View SDK.prefab``` on your scene
 
 ![ezgif com-gif-maker-4](https://user-images.githubusercontent.com/59806365/174674672-7c6f4f96-6224-40e8-b718-c11a0d8b7bdf.gif)
 
-Great, you can use!
+Congratulations, now you can use it!
 
 Example of correct execution:
 
