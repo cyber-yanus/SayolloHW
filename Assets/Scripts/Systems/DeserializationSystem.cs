@@ -1,5 +1,6 @@
 using Deserializer.Deserializer_Variants;
 using Data.ResponseData;
+using DefaultNamespace;
 using Data.NetworkData;
 using Deserializer;
 using Data.ApiData;
@@ -29,8 +30,8 @@ namespace Systems
                     Deserialize<VAST>(apiType, response);
                     break;
                 
-                case ApiType.PurchaseView:
-                    
+                case ApiType.PurchaseItem:
+                    Deserialize<PurchaseItemData>(apiType, response);
                     break;
             }
         }
@@ -57,6 +58,9 @@ namespace Systems
             {
                 case ResponseFormat.Xml:
                     return new XmlDeserializer();
+                
+                case ResponseFormat.Json:
+                    return new JsonDeserializer();
             }
 
             return null;

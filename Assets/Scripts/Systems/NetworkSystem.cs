@@ -21,11 +21,24 @@ namespace Systems
             Init();
         }
 
-        public void ActivateRequest(ApiType apiType, Action<IDeserialized> afterDeserializationAction = null)
+        public void ActivateApiRequest(ApiType apiType, Action<IDeserialized> afterDeserializationAction = null)
         {
             _deserializationSystem.AddDeserializationCompletedAction(afterDeserializationAction);
 
-            _requestSystem.SendRequest(apiType);
+            _requestSystem.SendApiRequest(apiType);
+        }
+
+        public void ActivateSpriteRequest(string spriteUrl, Action<Sprite> afterSpriteRequestAction)
+        {
+            _requestSystem.AddSpriteResponseReceivedAction(afterSpriteRequestAction);
+            
+            _requestSystem.SendSpriteRequest(spriteUrl);
+        }
+
+        
+        public void AddRequestJsonToApi(string json, ApiType apiType)
+        {
+            networkConfig.AddJsonToApi(json, apiType);
         }
 
         private void Init()
@@ -33,7 +46,7 @@ namespace Systems
             _requestSystem = new RequestSystem(networkConfig);
             _deserializationSystem = new DeserializationSystem(networkConfig);
 
-            _requestSystem.ResponseReceived += _deserializationSystem.Activate;
+            _requestSystem.ApiResponseReceived += _deserializationSystem.Activate;
         }
         
     }
