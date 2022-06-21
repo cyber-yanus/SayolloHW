@@ -11,12 +11,12 @@ namespace Systems
     {
         [SerializeField] private AdsScreen adsScreen; 
         [Space]
+        [SerializeField] private string loadPanelRequestText = "Processes the request ...";
+        [SerializeField] private string loadPanelVideoText = "Loading video ...";
+        [Space]
         [SerializeField] private NetworkSystem networkSystem;
         [SerializeField] private VideoSystem videoSystem;
 
-        private const string LoadPanelRequestText = "Processes the request ...";
-        private const string LoadPanelVideoText = "Loading video ...";
-        
         private const string VideoUrlKey = "video url";
 
 
@@ -46,14 +46,14 @@ namespace Systems
             }
             else
             {
-                adsScreen.AddLoadPanelText(LoadPanelRequestText);
+                adsScreen.AddLoadPanelText(loadPanelRequestText);
                 networkSystem.ActivateApiRequest(ApiType.VideoAds, RequestFinishAction);
             }
         }
 
         private void PLayVideoAction(string videoUrl)
         {
-            adsScreen.AddLoadPanelText(LoadPanelVideoText);
+            adsScreen.AddLoadPanelText(loadPanelVideoText);
             
             videoSystem.SetupUrlVideo(videoUrl);
             videoSystem.Play();
