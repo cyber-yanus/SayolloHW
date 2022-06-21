@@ -9,7 +9,7 @@ namespace Data.NetworkData
     [CreateAssetMenu(fileName = "Network Config", menuName = "Data/Network Config")]
     public class NetworkConfig : ScriptableObject
     {
-        [SerializeField] private string mainServerUrl;
+        [SerializeField] private string mainServerUrl = "https://6u3td6zfza.execute-api.us-east-2.amazonaws.com/";
         
         [Header("Environments config")]
         [SerializeField] private EnvironmentType currentEnvironmentType;
